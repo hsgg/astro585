@@ -1,1 +1,1 @@
-Let's learn what we know.
+Yeah, we're learning git!
