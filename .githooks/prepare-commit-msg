@@ -1,0 +1,15 @@
+#!/bin/sh
+#
+# To enable this hook, rename this file to "prepare-commit-msg".
+
+if test -n "$GIT_PREFIX" ; then
+	sed -i -e "1i\\
+$GIT_PREFIX
+" "$1"
+fi
+
+#echo '#' >> "$1"
+#echo '# Hooks:' >> "$1"
+#echo '#' "$0" "$@" >> "$1"
+#echo '#' >> "$1"
+#env | sed 's/^/# /' >> "$1"
