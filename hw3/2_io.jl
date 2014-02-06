@@ -1,6 +1,6 @@
-#!/Applications/Julia.app/Contents/Resources/julia/bin/julia
-# yeah, haven't added julia to my path on this computer
 #!/usr/bin/env julia
+#!/Applications/Julia.app/Contents/Resources/julia/bin/julia
+# yeah, haven't added julia to my path on mac
 
 
 
