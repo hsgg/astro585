@@ -67,7 +67,6 @@ println("\nSmaller, meaner, faster!")
 # 2e
 println("\n# 2e")
 using HDF5, JLD
-@load "holy.jld"
 time = @elapsed @save "holy.jld" v
 println("Writing2^20 in hdf5: ", time, " seconds")
 time = @elapsed @save "holy.jld" v

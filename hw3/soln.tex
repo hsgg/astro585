@@ -28,6 +28,7 @@ My git repository is here: \url{https://github.com/hsgg/astro585}, clone URL
 \url{https://github.com/hsgg/astro585.git}.
 
 \section{File I/O}
+First the program file, then the output:
 \verbatiminput{2_io.jl}
 
 And for creating a YAML file I used the file \path{2_makeyaml.py}:
@@ -118,6 +119,26 @@ human readable. However, it looks like a really nice configuration file
 format.
 \end{verbatim}
 
+
+\section{Testing}
+First the program file, then the output:
+\verbatiminput{3_test.jl}
+
+With output:
+
+\begin{verbatim}
+Get entropy...
+# 3a
+ASCII success! (with approximation)
+Binary success! (exact)
+ERROR: no method jldopen(Symbol)
+while loading /home/hsgg/pennstate/585-comp/hw3/3_test.jl, in expression starting on line 58
+\end{verbatim}
+
+
+\section{Documentation}
+I added some documentation to the function 'test\_rw()' in part 3 of the
+homework.
 
 
 \end{document}
