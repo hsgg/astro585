@@ -33,6 +33,91 @@ My git repository is here: \url{https://github.com/hsgg/astro585}, clone URL
 And for creating a YAML file I used the file \path{2_makeyaml.py}:
 \verbatiminput{2_makeyaml.py}
 
+The output is:
+\begin{verbatim}
+<snip random vector fo 1024 elements>
+
+# 2a
+Print to stdout takes 0.270311566 seconds
+
+# 2b,c
+Writing: 0.101148976 seconds
+Reading: 3.015733168 seconds
+Reading: 0.001776553 seconds
+Reading: 0.001718864 seconds
+
+Writing to a file is about 10 times faster than to writing to
+stdout. Initial reading is slow, but subsequent ones are amazingly fast,
+probably because julia (and the OS) caches the read.
+
+Writing2^20: 1.245572694 seconds
+Reading2^20: 1.769823281 seconds
+Reading2^20: 1.74360053 seconds
+Reading2^20: 1.744750048 seconds
+
+Yeah, cache ain't big enough no more.
+
+# 2d
+Writing2^20 in binary: 0.275027949 seconds
+Reading2^20 in binary: 0.11283971 seconds
+Reading2^20 in binary: 0.02341513 seconds
+Reading2^20 in binary: 0.023484832 seconds
+
+ASCII file size: 18.268983840942383 MB
+Binary file size: 8.0 MB
+
+Smaller, meaner, faster!
+
+# 2e
+Writing2^20 in hdf5: 0.816217353 seconds
+Writing2^20 in hdf5: 0.234449809 seconds
+Reading2^20 in hdf5: 0.074714466 seconds
+Reading2^20 in hdf5: 0.012444531 seconds
+Reading2^20 in hdf5: 0.011976035 seconds
+
+HDF5 file size: 8.002532958984375 MB
+
+Writing is slower than pure binary, but reading is faster, which
+seems odd. Possibly the 'read()' call does some buffer management that the HDF5
+library can avoid with more information.
+
+# 2f
+The ASCII format will have to read all elements, because each element
+has a different length, and we need to find the delimiters. The pure binary
+format will probably be fastest, since I would just calculate the position of
+the relevant element (i * sizeof(Float64)) and then seek to it. HDF5 might be
+as fast as the pure binary format, but I imagine that it would first read the
+beginning of the file to find out the structure of the file, and then seek to
+the relevant position.
+
+# 2g
+ASCII is human readable, and human editable. However, the simple
+version used in this homework I would never use in any serious work, as it is
+too easy to confuse what each number means. ASCII in general is not useful for
+storing large amounts of data, as it takes more than twice as much space, and
+is significantly slower. It may also loose some precision when converting to a
+decimal representation. However, it may be useful for small data tables.
+
+Using a pure binary file is simple, but not so great, since the precise format
+is easily forgotten, and may change depending on which machine you run it.
+
+HDF5 seems nice for large data sets, but as for the pure binary format you will
+need a program to read and edit it, so I would not use it for configuration or
+parameter files. It is likely precisely enough defined to be the same no matter
+what machine you run your program on.
+
+# 2h
+The file 'knuth.yaml' was created with './2_makeyaml.py > knuth.yaml',
+because yaml for julia cannot yet write a YAML file at this time.
+Reading2^10 in YAML: 9.325846978 seconds
+Reading2^10 in YAML: 0.334877953 seconds
+
+At this time, YAML is not a serious contender for storing any amount
+of data. Besides the first read time being, uhm, slow, the table is not really
+human readable. However, it looks like a really nice configuration file
+format.
+\end{verbatim}
+
 
 
 \end{document}
