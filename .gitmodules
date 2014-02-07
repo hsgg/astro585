@@ -1,0 +1,4 @@
+[submodule "Astro585"]
+	path = Astro585
+	url = https://github.com/eford/Astro585.git
+	branch = master
