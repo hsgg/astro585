@@ -1,0 +1,7 @@
+On my Linux laptop I tested the following julia interfaces:
+
+    - Command line julia from git repository works.
+
+    - IJulia.jl notebook works.
+
+    - julia-studio from git seems to work, but I didn't use it.
