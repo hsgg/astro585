@@ -2,8 +2,6 @@
 #!/Applications/Julia.app/Contents/Resources/julia/bin/julia
 # yeah, haven't added julia to my path on mac
 
-
-
 # 2a
 srand(42)
 v = rand(2^10)
@@ -11,7 +9,6 @@ v = rand(2^10)
 time = @elapsed println(v)
 println("# 2a")
 println("Print to stdout takes ", time, " seconds")
-
 
 # 2b,c
 println("\n# 2b,c")
@@ -37,7 +34,6 @@ println("Reading2^20: ", time, " seconds")
 time = @elapsed readdlm("torvalds.dat", '\t', Float64)
 println("Reading2^20: ", time, " seconds")
 println("\nYeah, cache ain't big enough no more.")
-
 
 # 2d
 println("\n# 2d")
@@ -68,7 +64,6 @@ println("Binary file size: ", stat("wozniak.bin").size / 2^20, " MB")
 
 println("\nSmaller, meaner, faster!")
 
-
 # 2e
 println("\n# 2e")
 using HDF5, JLD
@@ -89,7 +84,6 @@ println("\nHDF5 file size: ", stat("holy.jld").size / 2^20, " MB")
 println("\nWriting is slower than pure binary, but reading is faster, which
 seems odd. Possibly the 'read()' call does some buffer management that the HDF5
 library can avoid with more information.")
-
 
 # 2f
 println("\n# 2f")
@@ -118,9 +112,8 @@ need a program to read and edit it, so I would not use it for configuration or
 parameter files. It is likely precisely enough defined to be the same no matter
 what machine you run your program on.")
 
-
 # 2h
-# No need to wait...
+# Interesting stuff first...
 println("\n# 2h")
 using YAML
 println("The file 'knuth.yaml' was created with './2_makeyaml.py > knuth.yaml',
