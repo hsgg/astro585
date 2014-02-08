@@ -61,6 +61,20 @@ function integrate_mapreduce(fn, a, b; maxevals=10^7)
 end
 
 
+function integrate_devectorize(fn, a, b; maxevals=10^7)
+    # Hm, to install Devectorize package, julia wants to use the
+    # --single-branch option to clone, which git learned in version 1.7.10. The
+    # Davey computers only have 1.7.9. We are almost there!
+    @assert maxevals >= 0
+    N = maxevals
+    x = make_x(a, b, N)
+    @devec s = sum(exp(-0.5 * x^2) / sqrt(2 * pi))
+    I = s * (b-a) / N
+    E = I / N
+    return I, E
+end
+
+
 function test_integral(intfn; maxevals=10^7)
     a = 0.5
     numerically, ntol = intfn(gaussian, -a, a, maxevals=maxevals)
@@ -84,3 +98,4 @@ test_integral_function(quadgk)
 test_integral_function(integrate_vector)
 test_integral_function(integrate_mapthenreduce)
 test_integral_function(integrate_mapreduce)
+test_integral_function(integrate_devectorize)
