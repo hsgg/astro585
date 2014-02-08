@@ -1,6 +1,7 @@
 #!/usr/bin/env julia
 
 using Base.Test
+using Devectorize
 
 gaussian(x) = exp(-0.5 * x.^2) / sqrt(2 * pi)
 
@@ -68,7 +69,7 @@ function integrate_devectorize(fn, a, b; maxevals=10^7)
     @assert maxevals >= 0
     N = maxevals
     x = make_x(a, b, N)
-    @devec s = sum(exp(-0.5 * x^2) / sqrt(2 * pi))
+    @devec s = sum(exp(-0.5 .* x.^2) ./ sqrt(2 .* pi))
     I = s * (b-a) / N
     E = I / N
     return I, E
