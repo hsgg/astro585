@@ -23,11 +23,15 @@ function integrate_simple(fn, a, b; maxevals=10^7)
     return I, E
 end
 
+function make_x(a, b, N)
+    return a + (b-a) * (1:N) / (N+1)
+end
+
 
 function integrate_vector(fn, a, b; maxevals=10^7)
     @assert maxevals >= 0
     N = maxevals
-    x = a + (b-a) * (1:N) / (N+1)
+    x = make_x(a, b, N)
     y = gaussian(x)
     I = sum(y) * (b-a) / N
     E = I / N
@@ -38,7 +42,7 @@ end
 function integrate_mapthenreduce(fn, a, b; maxevals=10^7)
     @assert maxevals >= 0
     N = maxevals
-    x = a + (b-a) * (1:N) / (N+1)
+    x = make_x(a, b, N)
     y = map(gaussian, x)
     I = reduce(+, y) * (b-a) / N
     E = I / N
@@ -49,7 +53,7 @@ end
 function integrate_mapreduce(fn, a, b; maxevals=10^7)
     @assert maxevals >= 0
     N = maxevals
-    x = a + (b-a) * (1:N) / (N+1)
+    x = make_x(a, b, N)
     s = mapreduce(gaussian, +, x)
     I = s * (b-a) / N
     E = I / N
