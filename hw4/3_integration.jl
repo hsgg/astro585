@@ -10,7 +10,7 @@ gaussian(x) = exp(-0.5 * x.^2) / sqrt(2 * pi)
 #    - Calculates the integal from 'a' to 'b' of the function 'fn(x)', using no
 #      more than 'maxevals' function evaluations.
 #    - Returns a pair (I, E) similar to 'quadgk()', where I is the integral,
-#      and E an estimation of the error
+#      and E an estimation of the error.
 function integrate_loop(fn, a, b; maxevals=10^7)
     @assert maxevals >= 0
     N = maxevals
@@ -64,8 +64,9 @@ end
 
 function integrate_devectorize(fn, a, b; maxevals=10^7)
     # Hm, to install Devectorize package, julia wants to use the
-    # --single-branch option to clone, which git learned in version 1.7.10. The
-    # Davey computers only have 1.7.9. We are almost there!
+    # --single-branch option to git clone, which git learned in version 1.7.10.
+    # The Davey computers only have 1.7.9. We are almost there!
+    # Doing this on my laptop now...
     @assert maxevals >= 0
     N = maxevals
     x = linspace(a, b, N)
@@ -90,7 +91,10 @@ end
 
 
 function test_integral_function(intfn)
+    # test at least one odd case
     @test_throws intfn(-0.3, 0.4, maxevals=-1)
+
+    # test the results
     test_integral(intfn, maxevals=0)
     test_integral(intfn, maxevals=1)
     test_integral(intfn, maxevals=2)
@@ -99,7 +103,8 @@ function test_integral_function(intfn)
     test_integral(intfn, maxevals=10^6)
 end
 
-function time_integral_function(intfn, integrandfn; maxcalls=10^2, maxevals=10^4)
+function time_integral_func(intfn, integrandfn;
+        maxcalls=10^2, maxevals=10^4)
     a = -0.3
     b = 0.6
     time = @elapsed for i in 1:maxcalls
@@ -109,14 +114,15 @@ function time_integral_function(intfn, integrandfn; maxcalls=10^2, maxevals=10^4
 end
 
 function run_timing_test(name, intfn, integrandfn)
-    time1 = time_integral_function(intfn, integrandfn, maxcalls=10^2, maxevals=10^4)
-    time2 = time_integral_function(intfn, integrandfn, maxcalls=10^4, maxevals=10^2)
+    time1 = time_integral_func(intfn, integrandfn, maxcalls=10^2, maxevals=10^4)
+    time2 = time_integral_func(intfn, integrandfn, maxcalls=10^4, maxevals=10^2)
     s = ^(" ", 13 - length(name)) # 13 is the longest name
-    println(name, ": ", s, time1, " seconds each heavy,\t", time2, " seconds called often")
+    println(name, ": ", s, time1, " sec each heavy,\t",
+                time2, " sec called often")
 end
 
 
-println("Run test...")
+println("Run tests...")
 test_integral_function(integrate_loop)
 test_integral_function(quadgk)
 test_integral_function(integrate_vector)
@@ -136,15 +142,16 @@ run_timing_test("devectorize", integrate_devectorize, gaussian)
 
 # Result before optimizing anything:
 #
-#     Testing...
-#     All tests passed.
-#     loop:          0.595304462 seconds each heavy,	0.629019717 seconds called often
-#     quadgk:        0.002727372 seconds each heavy,	0.342643327 seconds called often
-#     vector:        0.375237349 seconds each heavy,	0.381191879 seconds called often
-#     mapthenreduce: 0.954187077 seconds each heavy,	0.964943613 seconds called often
-#     mapreduce:     0.796831646 seconds each heavy,	0.70804807 seconds called often
-#     devectorize:   0.296372564 seconds each heavy,	0.370756402 seconds called often
+#   Testing...
+#   All tests passed.
+#   loop:          0.595304462 sec each heavy,	0.629019717 sec called often
+#   quadgk:        0.002727372 sec each heavy,	0.342643327 sec called often
+#   vector:        0.375237349 sec each heavy,	0.381191879 sec called often
+#   mapthenreduce: 0.954187077 sec each heavy,	0.964943613 sec called often
+#   mapreduce:     0.796831646 sec each heavy,	0.70804807 sec called often
+#   devectorize:   0.296372564 sec each heavy,	0.370756402 sec called often
 #
 # Most functions are a little slower when called often as opposed to having
-# large loops in them, especially 'quadgk()'. Interestingly, the mapreduce
-# version is faster, however.
+# long loops in them. Interestingly, the mapreduce version is faster, however.
+# The comparison with 'quadgk()' is unfair, as it terminates whenever the
+# desired tolerance is reached.
