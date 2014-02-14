@@ -15,9 +15,9 @@ function log_likelihood(log_pdf, y::Array, sigma::Array, z::Array)
     n = length(y)
     @assert n == length(sigma)
     @assert n == length(z)
-    sum = zero(y[1])
+    sum = @profile zero(y[1])
     for i in 1:n
-        sum += log_pdf(y[i], z[i], sigma[i])
+        @profile sum += log_pdf(y[i], z[i], sigma[i])
     end
     
     return sum
@@ -32,4 +32,7 @@ function run_m_times(func, log_pdf, Nobs::Int, M::Int)
     return sum # return something
 end
 
-println("Time taken: ", @elapsed run_m_times(log_likelihood, log_deMoivre, iround(3e3), 10^3))
+println("Time taken: ", @elapsed run_m_times(log_likelihood, log_deMoivre, iround(3e3), 10^4))
+
+Profile.print()
+Profile.clear()
