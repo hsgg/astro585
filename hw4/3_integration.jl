@@ -21,8 +21,7 @@ function integrate_loop(fn, a, b; maxevals=10^7)
     end
     I = sum * (b-a) / N
 
-    # no idea of this is right, but it is in the right ballpark for the test
-    # below
+    # no idea if this is right, but it is in the right ballpark for the tests
     E = I / N
 
     return I, E
@@ -144,14 +143,74 @@ run_timing_test("devectorize", integrate_devectorize, gaussian)
 #
 #   Testing...
 #   All tests passed.
-#   loop:          0.595304462 sec each heavy,	0.629019717 sec called often
-#   quadgk:        0.002727372 sec each heavy,	0.342643327 sec called often
-#   vector:        0.375237349 sec each heavy,	0.381191879 sec called often
-#   mapthenreduce: 0.954187077 sec each heavy,	0.964943613 sec called often
-#   mapreduce:     0.796831646 sec each heavy,	0.70804807 sec called often
-#   devectorize:   0.296372564 sec each heavy,	0.370756402 sec called often
+#   loop:          0.484841521 sec each heavy,	0.603287741 sec called often
+#   quadgk:        0.002404426 sec each heavy,	0.300752033 sec called often
+#   vector:        0.335771084 sec each heavy,	0.350315113 sec called often
+#   mapthenreduce: 0.904367259 sec each heavy,	0.917444621 sec called often
+#   mapreduce:     0.703033884 sec each heavy,	0.655952055 sec called often
+#   devectorize:   0.169991816 sec each heavy,	0.249352334 sec called often
 #
 # Most functions are a little slower when called often as opposed to having
-# long loops in them. Interestingly, the mapreduce version is faster, however.
-# The comparison with 'quadgk()' is unfair, as it terminates whenever the
-# desired tolerance is reached.
+# long loops in them. However, the mapreduce version is slightly faster. The
+# comparison with 'quadgk()' is unfair, as it terminates whenever the desired
+# tolerance is reached (and it's a different algorithm).
+
+# Profiling devectorize version:
+println()
+Profile.clear()
+@profile time_integral_func(integrate_devectorize, gaussian, maxcalls=10^1, maxevals=10^5)
+Profile.print()
+#
+# 170 boot.jl; include; line: 238
+#     170 profile.jl; anonymous; line: 14
+#           170 ...4/3_integration.jl; time_integral_func; line: 110
+#                 80 ...3_integration.jl; integrate_devectorize; line: 71
+#                  80 array.jl; linspace; line: 238
+#                 90 ...3_integration.jl; integrate_devectorize; line: 72
+#
+# Lines 71 and 72 take most of the time. 71 just allocates memory: it is the
+# call to 'linspace()'. Line 72 performs the loop. I don't see much potential
+# for optimizing the loop, but getting rid of the allocation via 'linspace()'
+# would make sense if the function gets called often.
+
+# Profiling vector version:
+println()
+Profile.clear()
+@profile time_integral_func(integrate_vector, gaussian, maxcalls=10^1, maxevals=10^5)
+Profile.print()
+#
+# 306 boot.jl; include; line: 238
+#     306 profile.jl; anonymous; line: 14
+#           306 ...4/3_integration.jl; time_integral_func; line: 110
+#                 82  ...3_integration.jl; integrate_vector; line: 34
+#                  1  array.jl; linspace; line: 237
+#                  81 array.jl; linspace; line: 238
+#                 218 ...3_integration.jl; integrate_vector; line: 35
+#                  218 ...3_integration.jl; gaussian; line: 6
+#                   9   array.jl; .*; line: 135
+#                   1   array.jl; .*; line: 136
+#                   1   array.jl; .*; line: 938
+#                   41  array.jl; ./; line: 135
+#                   3   array.jl; ./; line: 136
+#                   1   array.jl; ./; line: 945
+#                   45  array.jl; .^; line: 920
+#                   117 operators.jl; exp; line: 236
+#                 6   ...3_integration.jl; integrate_vector; line: 36
+#                  6 abstractarray.jl; sum; line: 1487
+#                   6 abstractarray.jl; sum_pairwise; line: 1481
+#                    6 abstractarray.jl; sum_pairwise; line: 1481
+#                     6 abstractarray.jl; sum_pairwise; line: 1481
+#                      6 abstractarray.jl; sum_pairwise; line: 1481
+#                       6 abstractarray.jl; sum_pairwise; line: 1481
+#                        6 abstractarray.jl; sum_pairwise; line: 1481
+#                         6 abstractarray.jl; sum_pairwise; line: 1481
+#                          1 ...ractarray.jl; sum_pairwise; line: 1480
+#                          5 ...ractarray.jl; sum_pairwise; line: 1481
+#                           5 ...ractarray.jl; sum_pairwise; line: 1481
+#                            5 ...actarray.jl; sum_pairwise; line: 1481
+#                             4 ...actarray.jl; sum_pairwise; line: 135
+#                             1 ...actarray.jl; sum_pairwise; line: 1475
+#
+# Some of the time is spent in 'linspace()' again, but much more time is spent
+# in 'gaussian()'. This is likely due to there being some temporary arrays
+# copied for intermediate results.
