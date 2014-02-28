@@ -1,7 +1,7 @@
 #!/usr/bin/env julia
 
-#include("../Astro585/Lab5/HW5_Q2_lookup_table.jl")
-#include("../Astro585/Lab5/HW5_Q2_ecc_anom.jl")
+require("../Astro585/Lab5/HW5_Q2_lookup_table.jl")
+require("../Astro585/Lab5/HW5_Q2_ecc_anom.jl")
 
 
 # 2a
