@@ -1,0 +1,46 @@
+\documentclass[11pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage{fullpage}
+
+\usepackage{graphicx}
+\usepackage{verbatim}
+\usepackage{siunitx}
+
+\usepackage[colorlinks=false,pdfborder={0 0 0}]{hyperref}
+\usepackage[all]{hypcap}
+
+
+\title{Astro 585: HW 6}
+\author{Codename: The Maxwell-Jüttner Distribution}
+
+
+
+\begin{document}
+
+
+\maketitle
+
+My git repository is here: \url{https://github.com/hsgg/astro585}, clone URL
+\url{https://github.com/hsgg/astro585.git}.
+
+
+\section{Parallel stuff}
+
+1a) nprocs() is one larger than nworkers(). So there seems to be one process
+that manages all the ones that will do the actual computation.
+
+1b) As you told us, the functions are only defined on the main process, not the
+workers.
+
+1c) Presumably every worker writes to their own copy of 'integral', and the
+main thread doesn't do anything, so 'integral' in the main thread remains 0.0.
+
+pmap(): Looks like the main process is using one thread (ca~95\%), the other
+two share the other one, but they don't use as much (ca 40\% each).
+
+
+
+\end{document}
