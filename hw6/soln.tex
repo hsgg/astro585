@@ -41,6 +41,26 @@ main thread doesn't do anything, so 'integral' in the main thread remains 0.0.
 pmap(): Looks like the main process is using one thread (ca~95\%), the other
 two share the other one, but they don't use as much (ca 40\% each).
 
+map(): Uses only one processor at a time. That's strange. The distributed array
+seems to make it really slow. Not distributing makes the operation finish in
+much less than a second, rather than 10s.
+
+OK, I am not yet convinced of distributed arrays, although it seems to make
+sense. There is significant overhead involved with this.
+
+\section{Kepler}
+
+185~seconds when running in serial. Oddly, my plot looks differnt than yours
+when running your code:
+\begin{center}
+	\includegraphics[width=0.7\textwidth]{parameterspace_originalserial.pdf}
+\end{center}
+
+101~seconds in parallel, so slightly more than half the time, with almost the
+same result. There is a difference close to (0.0,~0.0). Not good.
+\begin{center}
+	\includegraphics[width=0.7\textwidth]{parameterspace_parallel.pdf}
+\end{center}
 
 
 \end{document}
