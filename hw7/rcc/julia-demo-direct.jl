@@ -8,7 +8,7 @@
 #PBS -l pmem=1gb           # this requests 1GB of memory per process
 #PBS -j oe                 # combine the stdout and stderr into one file
 #PBS -m abe                # send email on abort, begin or exit
-#PBS -M nobody@psu.edu      # send email to this address  
+#PBS -M hsg113@psu.edu     # send email to this address
 ## *** TODO: modify the above line to have your email address ***
  
 # module load julia        # since we've already started julia directly, no point

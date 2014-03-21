@@ -5,13 +5,13 @@
 #PBS -l pmem=1gb           # this requests 1GB of memory per process
 #PBS -j oe                 # combine the stdout and stderr into one file
 #PBS -m abe                # send email on abort, begin or exit
-#PBS -M nobody@psu.edu      # send email to this address
+#PBS -M hsg113@psu.edu     # send email to this address
 ## *** TODO: modify the above line to have your email address ***
 
 # tcsh, bash, julia, etc. ignore text on a line following the # symbol
 # however the PBS system uses lines begining with #PBS to decide how it should treat your job
 
-module load git            # to put git in path
+#module load git            # to put git in path
 module load julia          # to put julia in path
 
 cd $PBS_O_WORKDIR          # change into same directory as job was submitted from
