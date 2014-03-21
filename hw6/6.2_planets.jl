@@ -1,13 +1,14 @@
 #!/usr/bin/env julia
 
-if nprocs() < 2
-  @time addprocs(2) # 13 seconds
-end
+#if nprocs() < 2
+#  @time addprocs(2) # 13 seconds
+#end
+addprocs(4)
 
 # Why does it take a minute just to load these? I hope they fix it in
 # julia-0.3!
-@time @everywhere using Distributions # 44 seconds
-@time @everywhere using PyPlot        # 47 seconds
+@time @everywhere using Distributions
+@time @everywhere using PyPlot
 @everywhere const days_in_year = 365.2425;
 @time @everywhere include("HW6_Q2_planet_populations.jl")
 
@@ -25,7 +26,8 @@ end
   # This is ridiculous. Surely there is a better way to do this so that pmap()
   # or similar can create a grid from the three arrays 'etas', 'scales', and
   # 'shapes', and I don't need to do that on my own?
-  parameterspace = Array((Float64, Float64, Float64), length(etas) * length(shapes) * length(scales))
+  parameterspace = Array((Float64, Float64, Float64),
+      length(etas) * length(shapes) * length(scales))
   for k in 1:length(scales)
     for j in 1:length(shapes)
       for i in 1:length(etas)
@@ -34,6 +36,8 @@ end
       end
     end
   end
+
+  #parameterspace = distribute(parameterspace) # has no effect?
 
   result = pmap(pars -> evaluate_model(stats_obs, pars[1], pars[2], pars[3], num_stars;
             minP=minP, maxP=maxP, num_evals=num_evals), parameterspace)
@@ -44,7 +48,8 @@ end
   #  y = parameterspace[i][2]
   #  z = parameterspace[i][3]
   #  println(i, ' ', x, ' ', y, ' ', z)
-  #  result[i] = evaluate_model(stats_obs, x, y, z, num_stars; minP=minP, maxP=maxP, num_evals=num_evals)
+  #  result[i] = evaluate_model(stats_obs, x, y, z, num_stars;
+  #      minP=minP, maxP=maxP, num_evals=num_evals)
   #end
 
   println(result)
@@ -86,10 +91,11 @@ srand(42)
 @time result = eval_model_on_grid_parallel(etas,shapes,scales,num_stars;
     num_evals = num_evals, true_eta = eta, true_shape = shape, true_scale = scale);
 
-PyPlot.contour(log10(scales),shapes,[minimum(result[:,j,k]) for j in 1:num_scale, k in 1:num_shape])
+PyPlot.contour(log10(scales),shapes,[minimum(result[:,j,k]) for j in 1:num_scale,
+    k in 1:num_shape])
 plot(log10([scale]),[shape],"ro")  # Put dot where true values of parameters are
 xlabel(L"$\log_{10}(\mathrm{scale})$");  ylabel("shape");
-show()
+#show()
 
 
 # vim: set sw=2 sts=2 et :

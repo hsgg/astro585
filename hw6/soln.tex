@@ -8,6 +8,7 @@
 \usepackage{graphicx}
 \usepackage{verbatim}
 \usepackage{siunitx}
+\usepackage{pgfplots}
 
 \usepackage[colorlinks=false,pdfborder={0 0 0}]{hyperref}
 \usepackage[all]{hypcap}
@@ -48,6 +49,7 @@ much less than a second, rather than 10s.
 OK, I am not yet convinced of distributed arrays, although it seems to make
 sense. There is significant overhead involved with this.
 
+
 \section{Kepler}
 
 185~seconds when running in serial. Oddly, my plot looks differnt than yours
@@ -56,11 +58,48 @@ when running your code:
 	\includegraphics[width=0.7\textwidth]{parameterspace_originalserial.pdf}
 \end{center}
 
-101~seconds in parallel, so slightly more than half the time, with almost the
-same result. There is a difference close to (0.0,~0.0). Not good.
+101~seconds in parallel with 2 cores, so slightly more than half the time, with
+almost the same result. There is a difference close to (0.0,~0.0). Not good:
 \begin{center}
 	\includegraphics[width=0.7\textwidth]{parameterspace_parallel.pdf}
 \end{center}
 
+Using distributed arrays wouldn't change the performance much, because there is
+little overhead due to communication. There are a total of 64 different points
+in parameter space to test, or 192 floats, and the return value is also just a
+list of 64 floats. Not much communication.
+
+On workstation with 4 cores (yeah, I know, 4 != 8):
+\begin{center}
+  \begin{tikzpicture}[font=\Large]
+    \begin{axis}[
+        ymin=0,
+        xlabel=Number of worker processes,
+        ylabel=Computation time in wall-seconds
+      ]
+      \addplot coordinates {
+        (0, 27.644736393)
+        (1, 105.609920487)
+        (2, 58.597616588)
+        (3, 45.131695724)
+        (4, 37.878587973)
+        (5, 38.968469081)
+        (6, 38.930108833)
+        (7, 37.319774925)
+        (8, 37.690685883)
+      };
+    \end{axis}
+  \end{tikzpicture}
+\end{center}
+I am surprised by the fact that the single-threaded version is so much faster
+than even using 4 worker threads. I would not expect much communication
+overhead, since we are only transferring a few hundred floats from process to
+process.
+
+Turning 'parameterspace' into a distributed array did not have any effect,
+either. I guess that is expected if there is not much data being communicated.
+
+The code:
+\verbatiminput{6.2_planets.jl}
 
 \end{document}
