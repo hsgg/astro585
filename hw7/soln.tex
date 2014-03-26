@@ -33,6 +33,12 @@ My git repository is here: \url{https://github.com/hsgg/astro585}, clone URL
 
 $\pi \approx \num{3.140996000000}$. Hm, $\pi$\ldots
 
+The following, busy plot shows the computation time as function of number of
+worker threads, for both the loop and the map operations with \num{e8}
+iterations. For each operation and number of workers, the code was run three
+times -- all on one node, all on different nodes, and finally any combination
+that the pbs system saw fit to use.
+
 \begin{center}
   \begin{tikzpicture}
     \begin{axis}[
@@ -40,6 +46,7 @@ $\pi \approx \num{3.140996000000}$. Hm, $\pi$\ldots
 	xlabel=Number of worker processes,
 	ylabel=Computation time in wall-seconds,
         width=0.8\textwidth,
+        height=10cm,
         legend columns=2,
         legend to name=thelegend
       ]
@@ -68,6 +75,25 @@ $\pi \approx \num{3.140996000000}$. Hm, $\pi$\ldots
   \ref{thelegend}
 \end{center}
 
+Of course, it took longest to get started the job that needed 8 cores on a
+single node. Contention with others users is highest there.
+
+For reference, these are the commands to run it:
+\begin{center}
+\begin{verbatim}
+    $ cd hw7/
+    $ ./mkqsubscript.sh > q1_script.sh
+    $ chmod +x q1_script.sh
+    $ ./q1_script.sh
+\end{verbatim}
+\end{center}
+Then wait. To extract the numbers:
+\begin{center}
+\begin{verbatim}
+    $ ./Q1_get_result.sh
+\end{verbatim}
+\end{center}
+Then recompile the \LaTeX{} document \path{soln.tex} to recreate the graph.
 
 
 
