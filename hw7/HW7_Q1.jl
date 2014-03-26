@@ -7,7 +7,7 @@
 #PBS -l walltime=0:30:00   # specifies a maximum run time in format of hh:mm:ss
 #PBS -l pmem=1gb           # this requests 1GB of memory per process
 #PBS -j oe                 # combine the stdout and stderr into one file
-#PBS -m abe                # send email on abort, begin or exit
+#PBS -m a                  # send email on abort, begin or exit
 #PBS -M hsg113@psu.edu     # send email to this address
  
 # module load julia        # since we've already started julia directly, no point
@@ -36,7 +36,7 @@ end
 # OK, start in earnest
 include(string(ENV["PBS_O_WORKDIR"], "/HW7_Q1_funcs.jl"))
 
-timeloop, timemap = time_int_normal_pdf_functions(10^9)
+timeloop, timemap = time_int_normal_pdf_functions(10^8)
 
 println("timeloop: ", timeloop, " seconds")
 println("timemap:  ", timemap, " seconds")
