@@ -78,6 +78,13 @@ that the pbs system saw fit to use.
 Of course, it took longest to get started the job that needed 8 cores on a
 single node. Contention with others users is highest there.
 
+Above 4 processors, the scaling is about linear, with not much to be gained
+from more processors.
+
+I find a big difference between using map versus the hand-coded looping
+implementation, but not all that much between running on one node versus
+spreading it out.
+
 For reference, these are the commands to run it:
 \begin{center}
 \begin{verbatim}
