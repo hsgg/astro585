@@ -20,27 +20,30 @@ get_timemap() {
 
 retrieve_diffnodes() {
 	for i in `seq 1 $MAX`; do
-		procs=`get_nworkers q1_${i}_1.out`
-		timeloop=`get_timeloop q1_${i}_1.out`
-		timemap=`get_timemap q1_1_${i}.out`
+		fname="q1_${i}_1.out"
+		procs=`get_nworkers "$fname"`
+		timeloop=`get_timeloop "$fname"`
+		timemap=`get_timemap "$fname"`
 		echo $procs $timeloop $timemap
 	done
 }
 
 retrieve_samenode() {
 	for i in `seq 1 $MAX`; do
-		procs=`get_nworkers q1_1_${i}.out`
-		timeloop=`get_timeloop q1_${i}_1.out`
-		timemap=`get_timemap q1_1_${i}.out`
+		fname="q1_1_${i}.out"
+		procs=`get_nworkers "$fname"`
+		timeloop=`get_timeloop "$fname"`
+		timemap=`get_timemap "$fname"`
 		echo $procs $timeloop $timemap
 	done
 }
 
 retrieve_anynode() {
 	for i in `seq 1 $MAX`; do
-		procs=`get_nworkers q1_${i}.out`
-		timeloop=`get_timeloop q1_${i}_1.out`
-		timemap=`get_timemap q1_${i}.out`
+		fname="q1_${i}.out"
+		procs=`get_nworkers "$fname"`
+		timeloop=`get_timeloop "$fname"`
+		timemap=`get_timemap "$fname"`
 		echo $procs $timeloop $timemap
 	done
 }
