@@ -4,7 +4,7 @@
 
 #PBS -l nodes=3            # this requests 3 processor cores which may be spread across multiple nodes
 ###PBS -l nodes=1:ppn=3    # if uncommented, this requests 8 processor cores on a single node
-#PBS -l walltime=0:05:00   # specifies a maximum run time in format of hh:mm:ss
+#PBS -l walltime=0:30:00   # specifies a maximum run time in format of hh:mm:ss
 #PBS -l pmem=1gb           # this requests 1GB of memory per process
 #PBS -j oe                 # combine the stdout and stderr into one file
 #PBS -m abe                # send email on abort, begin or exit
@@ -36,7 +36,7 @@ end
 # OK, start in earnest
 include(string(ENV["PBS_O_WORKDIR"], "/HW7_Q1_funcs.jl"))
 
-timeloop, timemap = time_int_normal_pdf_functions()
+timeloop, timemap = time_int_normal_pdf_functions(10^8)
 
 println("timeloop: ", timeloop, " seconds")
 println("timemap:  ", timemap, " seconds")
