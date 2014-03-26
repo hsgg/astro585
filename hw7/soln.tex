@@ -1,0 +1,76 @@
+\documentclass[11pt]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+\usepackage{fullpage}
+
+\usepackage{graphicx}
+\usepackage{verbatim}
+\usepackage{siunitx}
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.8}
+
+\usepackage[colorlinks=false,pdfborder={0 0 0}]{hyperref}
+\usepackage[all]{hypcap}
+
+
+\title{Astro 585: HW 7}
+\author{Codename: The Maxwell-Jüttner Distribution}
+
+
+
+\begin{document}
+
+
+\maketitle
+
+My git repository is here: \url{https://github.com/hsgg/astro585}, clone URL
+\url{https://github.com/hsgg/astro585.git}.
+
+
+\section{PBS, Clusters, LionXV}
+
+$\pi \approx \num{3.140996000000}$. Hm, $\pi$\ldots
+
+\begin{center}
+  \begin{tikzpicture}
+    \begin{axis}[
+	ymin=0,
+	xlabel=Number of worker processes,
+	ylabel=Computation time in wall-seconds,
+        width=0.8\textwidth,
+        legend columns=2,
+        legend to name=thelegend
+      ]
+
+      \addplot table[x index=0,y index=1]{q1_diffnodes.dat};
+      \addlegendentry{loop, diff nodes};
+
+      \addplot table[x index=0,y index=2]{q1_diffnodes.dat};
+      \addlegendentry{map, diff nodes};
+
+
+      \addplot table[x index=0,y index=1]{q1_samenode.dat};
+      \addlegendentry{loop, same node};
+
+      \addplot table[x index=0,y index=2]{q1_samenode.dat};
+      \addlegendentry{map, same node};
+
+
+      \addplot table[x index=0,y index=1]{q1_anynode.dat};
+      \addlegendentry{loop, any node};
+
+      \addplot table[x index=0,y index=2]{q1_anynode.dat};
+      \addlegendentry{map, any node};
+    \end{axis}
+  \end{tikzpicture}
+  \ref{thelegend}
+\end{center}
+
+
+
+
+\end{document}
+
+% vim: set sw=2 sts=2 et :
