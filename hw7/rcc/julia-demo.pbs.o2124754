@@ -1,0 +1,11 @@
+Warning: Permanently added 'lionxv85,10.128.15.85' (RSA) to the list of known hosts.
+Warning: Permanently added 'lionxv85,10.128.15.85' (RSA) to the list of known hosts.
+Warning: Permanently added 'lionxv85,10.128.15.85' (RSA) to the list of known hosts.
+# myid= 1
+# nprocs= 4
+# nworkers= 3
+Julia says welcome from proc 2 w/ hostname lionxv85.hpc.rcc.psu.edu
+Julia says welcome from proc 3 w/ hostname lionxv85.hpc.rcc.psu.edu
+Julia says welcome from proc 4 w/ hostname lionxv85.hpc.rcc.psu.edu
+elapsed time: 0.077104786 seconds
+pi is estimated to be 3.140996000000

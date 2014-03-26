@@ -1,0 +1,13 @@
+Warning: Permanently added 'lionxv90,10.128.15.90' (RSA) to the list of known hosts.
+Warning: Permanently added 'lionxv90,10.128.15.90' (RSA) to the list of known hosts.
+Warning: Permanently added 'lionxv73,10.128.15.73' (RSA) to the list of known hosts.
+# Julia started in directory: /gpfs/home/hsg113
+# Julia is now in directory: /gpfs/home/hsg113/astro585/hw7
+# myid= 1
+# nprocs= 4
+# nworkers= 3
+# Julia says welcome from master proc 1 w/ hostname lionxv90.hpc.rcc.psu.edu
+# Julia says welcome from worker proc 2 w/ hostname lionxv90.hpc.rcc.psu.edu
+# Julia says welcome from worker proc 3 w/ hostname lionxv90.hpc.rcc.psu.edu
+# Julia says welcome from worker proc 4 w/ hostname lionxv73.hpc.rcc.psu.edu
+done
