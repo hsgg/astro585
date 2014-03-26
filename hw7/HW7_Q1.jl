@@ -36,7 +36,7 @@ end
 # OK, start in earnest
 include(string(ENV["PBS_O_WORKDIR"], "/HW7_Q1_funcs.jl"))
 
-timeloop, timemap = time_int_normal_pdf_functions(10^8)
+timeloop, timemap = time_int_normal_pdf_functions(10^9)
 
 println("timeloop: ", timeloop, " seconds")
 println("timemap:  ", timemap, " seconds")
