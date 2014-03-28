@@ -1,0 +1,55 @@
+CUDA Driver Initialized
+=== 128
+Timing the upload of inputs from CPU to GPU and memory allocation on GPU.
+elapsed time: 0.002062474 seconds
+Timing the gpu calculations.
+elapsed time: 0.033625078 seconds
+Timing the download of results from GPU to CPU
+elapsed time: 2.9094e-5 seconds
+Timing the summation being performed on the CPU
+elapsed time: 1.166e-6 seconds
+=== 1024
+Timing the upload of inputs from CPU to GPU and memory allocation on GPU.
+elapsed time: 0.000292408 seconds
+Timing the gpu calculations.
+elapsed time: 2.415e-5 seconds
+Timing the download of results from GPU to CPU
+elapsed time: 2.3038e-5 seconds
+Timing the summation being performed on the CPU
+elapsed time: 1.678e-6 seconds
+=== 16384
+Timing the upload of inputs from CPU to GPU and memory allocation on GPU.
+elapsed time: 0.000307848 seconds
+Timing the gpu calculations.
+elapsed time: 6.3604e-5 seconds
+Timing the download of results from GPU to CPU
+elapsed time: 0.000168737 seconds
+Timing the summation being performed on the CPU
+elapsed time: 1.4187e-5 seconds
+=== 131072
+Timing the upload of inputs from CPU to GPU and memory allocation on GPU.
+elapsed time: 0.000750645 seconds
+Timing the gpu calculations.
+elapsed time: 0.000393997 seconds
+Timing the download of results from GPU to CPU
+elapsed time: 0.001179501 seconds
+Timing the summation being performed on the CPU
+elapsed time: 0.000101974 seconds
+=== 1048576
+Timing the upload of inputs from CPU to GPU and memory allocation on GPU.
+elapsed time: 0.005102397 seconds
+Timing the gpu calculations.
+elapsed time: 0.000872845 seconds
+Timing the download of results from GPU to CPU
+elapsed time: 0.005523439 seconds
+Timing the summation being performed on the CPU
+elapsed time: 0.000950589 seconds
+=== 16777216
+Timing the upload of inputs from CPU to GPU and memory allocation on GPU.
+elapsed time: 0.086703042 seconds
+Timing the gpu calculations.
+elapsed time: 0.002435933 seconds
+Timing the download of results from GPU to CPU
+elapsed time: 0.081263251 seconds
+Timing the summation being performed on the CPU
+elapsed time: 0.012005107 seconds

@@ -9,8 +9,8 @@ md = load_functions()
 
 
 function run(n::Integer = 128)
-	println("=== 128")
-	int_normal_gpu(-1.0, 1.0, 128)
+	println("=== ", n)
+	int_normal_gpu(-1.0, 1.0, n)
 end
 
 
