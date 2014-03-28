@@ -48,7 +48,7 @@ that the pbs system saw fit to use.
         width=0.8\textwidth,
         height=10cm,
         legend columns=2,
-        legend to name=thelegend
+        legend to name=firstlegend
       ]
 
       \addplot table[x index=0,y index=1]{q1_diffnodes.dat};
@@ -72,7 +72,7 @@ that the pbs system saw fit to use.
       \addlegendentry{map, any node};
     \end{axis}
   \end{tikzpicture}
-  \ref{thelegend}
+  \ref{firstlegend}
 \end{center}
 
 Of course, it took longest to get started the job that needed 8 cores on a
@@ -102,6 +102,58 @@ Then wait. To extract the numbers:
 \end{center}
 Then recompile the \LaTeX{} document \path{soln.tex} to recreate the graph.
 
+
+
+\section{CUDA}
+
+For this I used \url{tesla.rcc.psu.edu}.
+
+\begin{center}
+  \begin{tikzpicture}
+    \begin{loglogaxis}[
+	ymin=0,
+	xlabel=Size of load,
+	ylabel=Computation time in wall-seconds,
+        width=0.8\textwidth,
+        height=10cm,
+        legend columns=2,
+        legend to name=secondlegend
+      ]
+      \addplot table[x index=0,y index=1]{q2.dat};
+      \addlegendentry{upload};
+
+      \addplot table[x index=0,y index=2]{q2.dat};
+      \addlegendentry{on GPU};
+
+
+      \addplot table[x index=0,y index=3]{q2.dat};
+      \addlegendentry{download};
+
+      \addplot table[x index=0,y index=4]{q2.dat};
+      \addlegendentry{CPU summation};
+
+      %\addplot table[x index=0,y index=5]{q2.dat};
+      %\addlegendentry{Total};
+    \end{loglogaxis}
+  \end{tikzpicture}
+  \ref{secondlegend}
+\end{center}
+
+For small data sets the GPU takes much of the time, although the data upload to
+the GPU also takes some time. I find it surprising that it takes longer than
+for larger datasets. Perhaps if I ran it multiple times, there would be a large
+scatter caused by interference from other processes.
+
+For large datasets the GPU time becomes negligible, and the up- and download
+times become dominant, as the GPU can distribute the work efiiciently among its
+small cores.
+
+Performing the summation on the GPU potentially increases the performance
+significantly, as the download to the CPU will essentially disappear. However,
+since the data still needs to be accessed for the summation, I expect the GPU
+to take more time doing the calculation than the CPU, so the speedup will be
+less. It depends on whether the CPU is the bottleneck in the download, or the
+GPU.
 
 
 \end{document}

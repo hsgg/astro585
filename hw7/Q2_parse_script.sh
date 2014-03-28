@@ -29,4 +29,4 @@ parser() {
 }
 
 
-parser < q2.out > q2.dat
+parser < q2.out | awk '{print $1 "\t" $2 "\t" $3 "\t" $4 "\t" $5 "\t" ($2 + $3 + $4 + $5)}' > q2.dat
