@@ -43,7 +43,7 @@ while n_sums > 1
     sum_block_size = choose_block_size(n_subsums)
     sum_grid_size = choose_grid_size(n_subsums, sum_block_size)
     launch(sum_gpu_kernel, sum_grid_size, sum_block_size, (nonsum_gpu, subsum_gpu, n_sums, n_subsums, percore), stream=stream1)
-    synchronize(stream1)
+    synchronize(stream1)  # Hm, Darve says global synchronization is unreliable...
 
     # setup next
     n_sums = n_subsums
@@ -57,8 +57,12 @@ while n_sums > 1
     subsum_gpu = tmp
 end
 
+# get result
+thesum = to_host(nonsums_gpu[0])
+
 free(sumtmp_gpu)
 toc()
+println("The sum is: ", thesum)
 
 println("Timing the download of results from GPU to CPU")
 tic()
@@ -74,6 +78,7 @@ println("Timing the summation being performed on the CPU")
 tic()
 result = sum(y_cpu) * (b-a)/n
 toc()
+println("No, the sum is: ", result)
 
 return result
 end
