@@ -61,7 +61,7 @@ end
 # get result
 launch(put_sum_kernel, 1, 1, (nonsum_gpu, result_gpu), stream=stream1)  # copy into small array
 synchronize(stream1)
-thesum = to_host(result_gpu)[1]
+thesum = to_host(result_gpu)[1] * (b-a)/n
 
 free(sumtmp_gpu)
 free(result_gpu)
