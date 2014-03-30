@@ -21,6 +21,7 @@ function load_functions()
 
   # retrieve the kernel functions from the module
   global normal_pdf_kernel = CuFunction(md, "normal_pdf_gpu")
+  global sum_gpu_kernel = CuFunction(md, "sum_gpu")
 
   return md
 end

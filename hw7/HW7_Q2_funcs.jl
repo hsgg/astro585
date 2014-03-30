@@ -37,11 +37,12 @@ n_sums = n
 n_subsums = iceil(n_sums / percore)
 nonsum_gpu = y_gpu
 subsum_gpu = CuArray(Float64, (n_subsums))
+sumtmp_gpu = subsum_gpu  # keep for later freeing
 
 while n_sums > 1
     sum_block_size = choose_block_size(n_subsums)
     sum_grid_size = choose_grid_size(n_subsums, sum_block_size)
-    launch(nonsum_gpu, sum_grid_size, sum_block_size, (nonsum_gpu, subsum_gpu, n_sums, n_subsums, percore), stream=stream1)
+    launch(sum_gpu_kernel, sum_grid_size, sum_block_size, (nonsum_gpu, subsum_gpu, n_sums, n_subsums, percore), stream=stream1)
     synchronize(stream1)
 
     # setup next
@@ -56,7 +57,7 @@ while n_sums > 1
     subsum_gpu = tmp
 end
 
-free(nonsum_gpu)
+free(sumtmp_gpu)
 toc()
 
 println("Timing the download of results from GPU to CPU")
