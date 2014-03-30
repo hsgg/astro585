@@ -111,7 +111,6 @@ For this I used \url{tesla.rcc.psu.edu}.
 \begin{center}
   \begin{tikzpicture}
     \begin{loglogaxis}[
-	ymin=0,
 	xlabel=Size of load,
 	ylabel=Computation time in wall-seconds,
         width=0.8\textwidth,
@@ -154,6 +153,16 @@ since the data still needs to be accessed for the summation, I expect the GPU
 to take more time doing the calculation than the CPU, so the speedup will be
 less. It depends on whether the CPU is the bottleneck in the download, or the
 GPU.
+
+For reference, the commands to get the plots are:
+\begin{center}
+\begin{verbatim}
+    $ cd hw7
+    $ ./HW7_Q2.jl  # must be run where GPU is available
+    $ ./Q2_parse_script.sh
+\end{verbatim}
+\end{center}
+Then recompile the \LaTeX{} document \path{soln.tex} to recreate the graph.
 
 
 \end{document}
