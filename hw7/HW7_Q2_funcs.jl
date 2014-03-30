@@ -38,6 +38,7 @@ n_subsums = iceil(n_sums / percore)
 nonsum_gpu = y_gpu
 subsum_gpu = CuArray(Float64, (n_subsums))
 sumtmp_gpu = subsum_gpu  # keep for later freeing
+result_gpu = CuArray(Float64, (1))
 
 while n_sums > 1
     sum_block_size = choose_block_size(n_subsums)
@@ -58,9 +59,12 @@ while n_sums > 1
 end
 
 # get result
-thesum = to_host(nonsums_gpu[0])
+launch(put_sum_kernel, 1, 1, (nonsum_gpu, result_gpu), stream=stream1)  # copy into small array
+synchronize(stream1)
+thesum = to_host(result_gpu)[1]
 
 free(sumtmp_gpu)
+free(result_gpu)
 toc()
 println("The sum is: ", thesum)
 

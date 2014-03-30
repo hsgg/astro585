@@ -24,6 +24,11 @@ extern "C"   // ensure function name to be left alone
                 sumptr[i] += y[j + k];
         }
     }
+
+    __global__ void get_sum_gpu(double *y, double *sumptr)
+    {
+        sumptr[0] = y[0];
+    }
 }
 
 
