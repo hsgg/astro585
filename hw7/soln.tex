@@ -158,11 +158,19 @@ For reference, the commands to get the plots are:
 \begin{center}
 \begin{verbatim}
     $ cd hw7
-    $ ./HW7_Q2.jl > q1.out  # must be run where GPU is available
-    $ ./Q2_parse_script.sh
+    $ ./HW7_Q2.jl > q2.out  # must be run where GPU is available
+    $ ./Q2_parse_script.sh < q2.out > q2.dat
 \end{verbatim}
 \end{center}
 Then recompile the \LaTeX{} document \path{soln.tex} to recreate the graph.
+
+It seems to frequently and randomly fail at the synchronization points.
+
+
+\subsection{Summation on the GPU}
+
+Ah, a nice problem! The summations agree on the answer, something like
+\num{0.6826894993594692}, which is pretty close to what it should be.
 
 
 

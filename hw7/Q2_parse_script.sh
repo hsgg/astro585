@@ -1,5 +1,9 @@
 #!/bin/sh
 
+maxcol=5
+if test $# = 1; then
+	maxcol=6
+fi
 
 parser() {
 	column=0
@@ -21,12 +25,17 @@ parser() {
 		fi
 
 		# end line
-		if test $column = 5; then
+		if test $column = $maxcol; then
 			column=0
 			echo
 		fi
 	done
 }
 
+awkscript='{print $1 "\t" $2 "\t" $3 "\t" $4 "\t" $5 "\t" ($2 + $3 + $4 + $5)}'
+awkscript_gpu='{print $1 "\t" $2 "\t" $3 "\t" $4 "\t" $5 "\t" $6 "\t" ($2 + $3 + $4)}'
+if test $# = 1; then
+	awkscript="$awkscript_gpu"
+fi
 
-parser < q2.out | awk '{print $1 "\t" $2 "\t" $3 "\t" $4 "\t" $5 "\t" ($2 + $3 + $4 + $5)}' > q2.dat
+parser | awk "$awkscript"
