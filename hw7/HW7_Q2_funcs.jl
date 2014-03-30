@@ -30,6 +30,35 @@ launch(normal_pdf_kernel, grid_size, block_size, (x_gpu, y_gpu, n), stream=strea
 synchronize(stream1)
 toc()
 
+println("Timing the summation being performed on the GPU")
+tic()
+percore = 16
+n_sums = n
+n_subsums = iceil(n_sums / percore)
+nonsum_gpu = y_gpu
+subsum_gpu = CuArray(Float64, (n_subsums))
+
+while n_sums > 1
+    sum_block_size = choose_block_size(n_subsums)
+    sum_grid_size = choose_grid_size(n_subsums, sum_block_size)
+    launch(nonsum_gpu, sum_grid_size, sum_block_size, (nonsum_gpu, subsum_gpu, n_sums, n_subsums, percore), stream=stream1)
+    synchronize(stream1)
+
+    # setup next
+    n_sums = n_subsums
+    n_subsums = iceil(n_sums / percore)
+    tmp = nonsum_gpu
+    if n_sums == n  # then nonsum_gpu = y_gpu
+        # Don't overwrite y_gpu, but we can recycle x_gpu
+        tmp = x_gpu
+    end
+    nonsum_gpu = subsum_gpu
+    subsum_gpu = tmp
+end
+
+free(nonsum_gpu)
+toc()
+
 println("Timing the download of results from GPU to CPU")
 tic()
 # download the results from GPU
