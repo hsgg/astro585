@@ -209,11 +209,54 @@ takes less than the download time. At small problem sizes the extra overhead
 makes the on-GPU summation take longer than the download, and so is
 anti-beneficial.
 
+The part of the code that I inserted into \path{HW7_Q2_funcs.jl} is below. It
+successively sums up blocks of the input array {\tt y\_gpu}.
+\begin{center}
+  \begin{verbatim}
+  println("Timing the summation being performed on the GPU")
+  tic()
+  percore = 16
+  n_sums = n
+  n_subsums = iceil(n_sums / percore)
+  nonsum_gpu = y_gpu
+  subsum_gpu = CuArray(Float64, (n_subsums))
+  sumtmp_gpu = subsum_gpu  # keep for later freeing
+  result_gpu = CuArray(Float64, (1))
+  first_round = true
+
+  while n_sums > 1
+      sum_block_size = choose_block_size(n_subsums)
+      sum_grid_size = choose_grid_size(n_subsums, sum_block_size)
+      launch(sum_gpu_kernel, sum_grid_size, sum_block_size,
+          (nonsum_gpu, subsum_gpu, n_sums, n_subsums, percore), stream=stream1)
+      synchronize(stream1)  # Hm, Darve says global synchronization is unreliable...
+
+      # setup next
+      n_sums = n_subsums
+      n_subsums = iceil(n_sums / percore)
+      tmp = nonsum_gpu
+      if first_round == true  # then nonsum_gpu = y_gpu
+          first_round = false
+          # Don't overwrite y_gpu, but we can recycle x_gpu
+          tmp = x_gpu
+          println("y_gpu no longer in danger")
+      end
+      nonsum_gpu = subsum_gpu
+      subsum_gpu = tmp
+  end
+  \end{verbatim}
+\end{center}
+
+
+With CUDA kernels in \path{normal_pdf_gpu.cu}:
+\verbatiminput{normal_pdf_gpu.cu}
 
 
 \section{The rest}
 
-Hm\ldots somehow I cannot convince myself to do these\ldots
+Hm\ldots somehow I cannot convince myself to do these\ldots It seems like
+figuring out how to use this cluster and that cluster is useful, I suppose, but
+not technically or scientifically interesting. A conundrum.
 
 
 \end{document}
