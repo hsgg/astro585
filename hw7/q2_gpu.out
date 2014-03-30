@@ -1,0 +1,85 @@
+CUDA Driver Initialized
+=== 128
+Timing the upload of inputs from CPU to GPU and memory allocation on GPU.
+elapsed time: 0.001973878 seconds
+Timing the gpu calculations.
+elapsed time: 0.033523175 seconds
+Timing the summation being performed on the GPU
+y_gpu no longer in danger
+elapsed time: 0.000115442 seconds
+The sum is: 0.6826944246763097
+Timing the download of results from GPU to CPU
+elapsed time: 1.5606e-5 seconds
+Timing the summation being performed on the CPU
+elapsed time: 1.52e-6 seconds
+No, the sum is: 0.6826944246763097
+=== 1024
+Timing the upload of inputs from CPU to GPU and memory allocation on GPU.
+elapsed time: 0.000287111 seconds
+Timing the gpu calculations.
+elapsed time: 2.0871e-5 seconds
+Timing the summation being performed on the GPU
+y_gpu no longer in danger
+elapsed time: 0.000522981 seconds
+The sum is: 0.682689578071094
+Timing the download of results from GPU to CPU
+elapsed time: 2.4426e-5 seconds
+Timing the summation being performed on the CPU
+elapsed time: 2.042e-6 seconds
+No, the sum is: 0.6826895780710939
+=== 16384
+Timing the upload of inputs from CPU to GPU and memory allocation on GPU.
+elapsed time: 0.000299978 seconds
+Timing the gpu calculations.
+elapsed time: 8.8196e-5 seconds
+Timing the summation being performed on the GPU
+y_gpu no longer in danger
+elapsed time: 0.000991369 seconds
+The sum is: 0.6826894992863577
+Timing the download of results from GPU to CPU
+elapsed time: 0.000165113 seconds
+Timing the summation being performed on the CPU
+elapsed time: 1.515e-5 seconds
+No, the sum is: 0.6826894992863579
+=== 131072
+Timing the upload of inputs from CPU to GPU and memory allocation on GPU.
+elapsed time: 0.000754453 seconds
+Timing the gpu calculations.
+elapsed time: 0.000423085 seconds
+Timing the summation being performed on the GPU
+y_gpu no longer in danger
+elapsed time: 0.001157125 seconds
+The sum is: 0.6826894994481826
+Timing the download of results from GPU to CPU
+elapsed time: 0.001158941 seconds
+Timing the summation being performed on the CPU
+elapsed time: 0.000104428 seconds
+No, the sum is: 0.6826894994481827
+=== 1048576
+Timing the upload of inputs from CPU to GPU and memory allocation on GPU.
+elapsed time: 0.005151637 seconds
+Timing the gpu calculations.
+elapsed time: 0.000906859 seconds
+Timing the summation being performed on the GPU
+y_gpu no longer in danger
+elapsed time: 0.002617466 seconds
+The sum is: 0.6826894993594692
+Timing the download of results from GPU to CPU
+elapsed time: 0.005650818 seconds
+Timing the summation being performed on the CPU
+elapsed time: 0.001038865 seconds
+No, the sum is: 0.6826894993594692
+=== 16777216
+Timing the upload of inputs from CPU to GPU and memory allocation on GPU.
+elapsed time: 0.085621143 seconds
+Timing the gpu calculations.
+elapsed time: 0.002704319 seconds
+Timing the summation being performed on the GPU
+y_gpu no longer in danger
+elapsed time: 0.02700436 seconds
+The sum is: 0.6826894993660626
+Timing the download of results from GPU to CPU
+elapsed time: 0.081299597 seconds
+Timing the summation being performed on the CPU
+elapsed time: 0.011939811 seconds
+No, the sum is: 0.6826894993660627
