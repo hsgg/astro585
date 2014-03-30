@@ -172,6 +172,43 @@ It seems to frequently and randomly fail at the synchronization points.
 Ah, a nice problem! The summations agree on the answer, something like
 \num{0.6826894993594692}, which is pretty close to what it should be.
 
+\begin{center}
+  \begin{tikzpicture}
+    \begin{loglogaxis}[
+	xlabel=Size of load,
+	ylabel=Computation time in wall-seconds,
+        width=0.8\textwidth,
+        height=10cm,
+        legend columns=2,
+        legend to name=thirdlegend
+      ]
+      \addplot table[x index=0,y index=1]{q2_gpu.dat};
+      \addlegendentry{upload};
+
+      \addplot table[x index=0,y index=2]{q2_gpu.dat};
+      \addlegendentry{on GPU};
+
+      \addplot table[x index=0,y index=4]{q2_gpu.dat};
+      \addlegendentry{download (plotted for reference)};
+
+
+      \addplot table[x index=0,y index=3]{q2_gpu.dat};
+      \addlegendentry{GPU summation};
+
+      %\addplot table[x index=0,y index=5]{q2.dat};
+      %\addlegendentry{Total};
+    \end{loglogaxis}
+  \end{tikzpicture}
+  \ref{thirdlegend}
+\end{center}
+
+I most likely didn't use the best algorithm, or the best choice of parameters
+for the algorithm, but it does seem to save a good deal of time, at least at
+large problem sizes, as can be seen by the fact that the GPU summation time
+takes less than the download time. At small problem sizes the extra overhead
+makes the on-GPU summation take longer than the download, and so is
+anti-beneficial.
+
 
 
 \section{The rest}
