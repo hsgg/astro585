@@ -39,6 +39,7 @@ nonsum_gpu = y_gpu
 subsum_gpu = CuArray(Float64, (n_subsums))
 sumtmp_gpu = subsum_gpu  # keep for later freeing
 result_gpu = CuArray(Float64, (1))
+first_round = true
 
 while n_sums > 1
     sum_block_size = choose_block_size(n_subsums)
@@ -50,9 +51,11 @@ while n_sums > 1
     n_sums = n_subsums
     n_subsums = iceil(n_sums / percore)
     tmp = nonsum_gpu
-    if n_sums == n  # then nonsum_gpu = y_gpu
+    if first_round == true  # then nonsum_gpu = y_gpu
+	first_round = false
         # Don't overwrite y_gpu, but we can recycle x_gpu
         tmp = x_gpu
+        println("y_gpu no longer in danger")
     end
     nonsum_gpu = subsum_gpu
     subsum_gpu = tmp
