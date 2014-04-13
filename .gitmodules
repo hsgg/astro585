@@ -2,3 +2,6 @@
 	path = Astro585
 	url = https://github.com/eford/Astro585.git
 	branch = master
+[submodule "transit_simulator"]
+	path = transit_simulator
+	url = git@bitbucket.org:batasha12/transit_simulator.git
