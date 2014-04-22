@@ -1,0 +1,91 @@
+\documentclass{beamer}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern} % get rid of fontsize warning
+
+\usepackage{tikz}
+\usepackage{pgfplots}
+\usepackage{verbatim}
+\usepackage{amsmath}
+\usepackage{textpos}
+\usepackage{siunitx}
+\usepackage{graphicx}
+\usepackage[normalem]{ulem}
+
+
+
+\title{Simulating a Bunch of Galaxies for HETDEX}
+\author{Henry~Gebhardt}
+\institute{Department of Astronomy and Astrophysics,\\
+The Pennsylvania State University}
+\date{Astro 585 --- HPC and Astronomers?\\ April 23, 2014}
+\titlegraphic{\includegraphics[width=\textwidth]{logo_hetdex.jpg}}
+
+
+
+\newcommand{\LAE}{Ly-$\alpha$ emitter}
+\newcommand{\LAEs}{\LAE{}s }
+\newcommand{\OIII}{{[}O{\sc III}{]}}
+\newcommand{\OII}{{[}O{\sc II}{]}}
+\newcommand{\NII}{{[}N{\sc II}{]}}
+\newcommand{\NeIII}{{[}Ne{\sc III}{]}}
+\newcommand{\Halpha}{H$\alpha$}
+\newcommand{\Hbeta}{H$\beta$}
+\newcommand{\Hgamma}{H$\gamma$}
+\newcommand{\OIIIll}{\OIII4959,5007}
+\newcommand{\OIIl}{\OII3727}
+\newcommand{\NeIIIl}{\NeIII3869}
+\newcommand{\NIIl}{\NII6583}
+\newcommand{\Hbetal}{\Hbeta4861}
+\newcommand{\Hgammal}{\Hgamma4340}
+
+% journals
+%\newcommand{\aap}{A\&A}
+%\newcommand{\mnras}{MNRAS}
+
+% units
+%\DeclareSIUnit \solarmass {\ensuremath{\textrm{M}_{\odot}}}
+
+\newcommand{\Msol}{\ensuremath{\text{M}_\odot}}
+\newcommand{\Zsol}{\ensuremath{\text{Z}_\odot}}
+\newcommand{\yr}{\ensuremath{\text{yr}}}
+\newcommand{\erg}{\ensuremath{\text{erg}}}
+\newcommand{\second}{\ensuremath{\text{s}}}
+\newcommand{\kilometer}{\ensuremath{\text{km}}}
+\newcommand{\angstrom}{\ensuremath{\text{\AA}}}
+
+
+\begin{document}
+
+\frame{\titlepage}
+
+\frame{
+    \frametitle{Hobby Eberly Telescope Dark Energy Experiment (HETDEX)}
+
+    \begin{center}
+        \includegraphics[width=0.8\textwidth]{HETDEX_2212.jpg}
+    \end{center}
+
+    \vspace*{-2.5cm}
+    \hspace*{7cm}
+    \begin{tikzpicture}
+        % http://www.usgs.gov/state/state.asp
+        \node{\includegraphics[width=4cm]{TX_transparent_background.png}};
+        \draw[color=red,->,very thick] (-2, -1) -> (-1.2, -0.2);
+    \end{tikzpicture}
+
+    \begin{textblock*}{\textwidth}(0cm, -1cm)
+        McDonald Observatory
+    \end{textblock*}
+}
+
+
+
+\appendix
+
+
+\end{document}
+
+
+% vim: set sw=4 sts=4 et:
