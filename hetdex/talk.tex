@@ -14,6 +14,12 @@
 \usepackage[normalem]{ulem}
 
 
+% for strings as xticks:
+% see http://stackoverflow.com/questions/2908513/pgf-tikz-string-symbols-as-input-coordinates
+\pgfplotsset{xticklabel={\tick},scaled x ticks=false}
+\pgfplotsset{plot coordinates/math parser=false}
+
+
 
 \title{Simulating a Bunch of Galaxies for HETDEX}
 \author{Henry~Gebhardt}
@@ -79,6 +85,126 @@ The Pennsylvania State University}
         McDonald Observatory
     \end{textblock*}
 }
+
+
+\frame{
+    \frametitle{Baryonic Acoustic Oscillations (BAO)}
+    \begin{center}
+        %http://www.sdss.org/news/releases/20050111.yardstick.html
+        \makebox[\textwidth]{
+            \includegraphics[width=1\textwidth,trim=2cm 3.5cm 2cm 3.5cm,clip]{Acoustic_Figure3.pdf}
+        }
+    \end{center}
+    Sloan Digital Sky Survey out to redshift $z \sim 0.5$.
+    
+    Eisenstein \emph{et al.}, 2005.
+}
+
+
+\frame{
+    \frametitle{Baryonic Acoustic Oscillations}
+    \begin{columns}
+        \begin{column}{6cm}
+            %https://www.cfa.harvard.edu/~deisenst/acousticpeak/
+            \includegraphics[height=0.7\textheight]{xi_jack.eps}
+        \end{column}
+        \begin{column}{3cm}
+            \includegraphics[width=\textwidth,trim=480 100 100 350,clip]{Acoustic_Figure3.pdf}
+            \begin{itemize}
+                \item Dark Energy
+                \item Dark Matter
+                \item Baryonic matter
+            \end{itemize}
+            \begin{itemize}
+                \item Oscillations are a standard yardstick
+            \end{itemize}
+        \end{column}
+    \end{columns}
+    \medskip
+    Eisenstein \emph{et al.}, 2005.
+}
+
+\frame{
+    \frametitle{HETDEX: How does the view of the yardstick change as a function
+    of redshift?}
+
+    \begin{textblock*}{5cm}(7cm, 0cm)
+        LAEs: ca. \num{800000} \\
+        OII emitters: 1--2~million
+    \end{textblock*}
+
+    \begin{tikzpicture}
+        % http://astr.ua.edu/keel/galaxies/largescale.html
+        \node at (-0.015, 2) {\includegraphics
+        [width=4cm,angle=90,clip,trim=305 0 0 0]{2dfjun2000.png}};
+        \draw[thick] (0, 0) -- ++(47.5:6cm) arc[start angle=47.5,end angle=132.5,radius=6cm]
+        -- cycle;
+        \node at (0, 5) {\Huge ???????};
+        %
+        \pause
+        % LAEs
+        \draw[<-,color=blue,very thick] (2, 5) -- (4, 5) node[anchor=west] (laes) {Lyman-$\alpha$ emitters};
+        \node at (laes) [anchor=105] {
+            \begin{minipage}{3cm}
+                \medskip
+                \raggedright
+                LAEs trace the matter distribution at high redshift
+            \end{minipage}
+        };
+        %
+        \pause
+        % OII emitters
+        \draw[<-,color=red,very thick] (0.5, 2) -- (3, 2) node[anchor=west]{Contaminants: OII emitters};
+    \end{tikzpicture}
+}
+
+
+\frame{
+    \frametitle{Project: Simulate a bunch of LAEs and OII emitters, and see how
+    well we can distinguish between them}
+
+    \begin{itemize}
+        \item HETDEX will obtain spectra of all of them
+        \item Scale up to a million of each
+    \end{itemize}
+}
+
+
+\frame{
+    \frametitle{Lessons Learned}
+    \begin{itemize}
+        \item IO on \url{lionxv.rcc.psu.edu}:
+            \begin{itemize}
+                \item network (\$HOME)
+                \item disk (\path{/tmp})
+                \item tmpfs (\path{/dev/shm/})
+            \end{itemize}
+
+            \begin{center}
+            \begin{tikzpicture}
+                \begin{axis}
+                    [
+                        height=4cm,
+                        width=6cm,
+                        symbolic x coords={home,tmp,devshm},
+                        ymin=0,
+                        ylabel=seconds,
+                    ]
+                    \addplot+[error bars/.cd, y dir=both, y explicit]
+                    table [header=false,x index=0,y index=1,y error index=3] {write_speed.dat};
+                \end{axis}
+            \end{tikzpicture}
+            \end{center}
+
+            \pause
+            $\to$ The ancient directives of the UNIX masters are still relevant
+            to this day.
+
+            \pause
+        \item print() statements are slow, especially over the network
+    \end{itemize}
+}
+
 
 
 
