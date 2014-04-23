@@ -164,8 +164,23 @@ The Pennsylvania State University}
     well we can distinguish between them}
 
     \begin{itemize}
-        \item HETDEX will obtain spectra of all of them
-        \item Scale up to a million of each
+        \item Draw RA, Dec, $z$ randomly from power spectrum (done by theorists)
+        \item Draw flux randomly from luminosity function
+        \item Plop down fake galaxies onto real images
+    \end{itemize}
+    \pause
+    \begin{itemize}
+        \item Determine flux (using RA, Dec, $z$ given by HETDEX)
+    \end{itemize}
+}
+
+\frame{
+    \frametitle{Problem size}
+    \begin{itemize}
+        \item $\sim\num{800000}$ LAEs
+        \item $\sim2$~million OII emitters
+        \item HETDEX will obtain spectra for all of them
+        \item still fits in memory (ca.~\SI{500}{\mega B})
     \end{itemize}
 }
 
