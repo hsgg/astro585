@@ -82,7 +82,7 @@ The Pennsylvania State University}
     \end{tikzpicture}
 
     \begin{textblock*}{\textwidth}(0cm, -1cm)
-        McDonald Observatory
+        McDonald Observatory, \SI{10}{\meter} primary, \num{36000} spectra
     \end{textblock*}
 }
 
@@ -160,17 +160,38 @@ The Pennsylvania State University}
 
 
 \frame{
+    \frametitle{How to distinguish between LAEs and OII emitters}
+    \includegraphics[width=0.5\textwidth,clip,trim=0 0 585 0]{chonis2013/f2.png}
+
+    HETDEX will get something like \num{36000} spectra per exposure.
+
+    Additionally, we will use broadband survey to get continuum flux.
+
+    $\to$ Equivalent width cut:
+    \begin{itemize}
+        \item LAEs $> 20\AA$
+        \item OII $< 20\AA$
+    \end{itemize}
+    Do Bayesian classification in the future.
+
+    In any case, we need the continuum flux.
+}
+
+
+\frame{
     \frametitle{Project: Simulate a bunch of LAEs and OII emitters, and see how
     well we can distinguish between them}
 
     \begin{itemize}
         \item Draw RA, Dec, $z$ randomly from power spectrum (done by theorists)
         \item Draw flux randomly from luminosity function
-        \item Plop down fake galaxies onto real images
+        \item Plop down fake galaxies onto real images (this takes longest!)
     \end{itemize}
     \pause
     \begin{itemize}
         \item Determine flux (using RA, Dec, $z$ given by HETDEX)
+        \item YODA (Yet another Object Detection Application)
+        \item inherited python code (the horror!)
     \end{itemize}
 }
 
@@ -181,6 +202,11 @@ The Pennsylvania State University}
         \item $\sim2$~million OII emitters
         \item HETDEX will obtain spectra for all of them
         \item still fits in memory (ca.~\SI{500}{\mega B})
+        \item should scale mostly linearly
+    \end{itemize}
+
+    \begin{itemize}
+        \item \path{mpi4py} for embarrassingly easy parallelization
     \end{itemize}
 }
 
@@ -190,7 +216,7 @@ The Pennsylvania State University}
     \begin{itemize}
         \item IO on \url{lionxv.rcc.psu.edu}:
             \begin{itemize}
-                \item network (\$HOME)
+                \item network (\$HOME, Infiniband)
                 \item disk (\path{/tmp})
                 \item tmpfs (\path{/dev/shm/})
             \end{itemize}
@@ -211,12 +237,13 @@ The Pennsylvania State University}
             \end{tikzpicture}
             \end{center}
 
-            \pause
             $\to$ The ancient directives of the UNIX masters are still relevant
             to this day.
 
             \pause
         \item print() statements are slow, especially over the network
+
+        \item MPI was pretty simple to parallelize in
     \end{itemize}
 }
 
