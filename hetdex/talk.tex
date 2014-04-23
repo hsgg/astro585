@@ -156,6 +156,8 @@ The Pennsylvania State University}
         % OII emitters
         \draw[<-,color=red,very thick] (0.5, 2) -- (3, 2) node[anchor=west]{Contaminants: OII emitters};
     \end{tikzpicture}
+
+    How does the Hubble \underline{constant} change with time?
 }
 
 
@@ -192,6 +194,7 @@ The Pennsylvania State University}
         \item Determine flux (using RA, Dec, $z$ given by HETDEX)
         \item YODA (Yet another Object Detection Application)
         \item inherited python code (the horror!)
+        \item uses files as communication between methods
     \end{itemize}
 }
 
@@ -228,7 +231,7 @@ The Pennsylvania State University}
                         height=4cm,
                         width=6cm,
                         symbolic x coords={home,tmp,devshm},
-                        ymin=0,
+                        %ymin=0,
                         ylabel=seconds,
                     ]
                     \addplot+[error bars/.cd, y dir=both, y explicit]
