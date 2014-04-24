@@ -16,8 +16,6 @@
 
 % for strings as xticks:
 % see http://stackoverflow.com/questions/2908513/pgf-tikz-string-symbols-as-input-coordinates
-\pgfplotsset{xticklabel={\tick},scaled x ticks=false}
-\pgfplotsset{plot coordinates/math parser=false}
 
 
 
@@ -171,8 +169,8 @@ The Pennsylvania State University}
 
     $\to$ Equivalent width cut:
     \begin{itemize}
-        \item LAEs $> 20\AA$
-        \item OII $< 20\AA$
+        \item LAEs $> \SI{20}{\AA}$
+        \item OII $< \SI{20}{\AA}$
     \end{itemize}
     Do Bayesian classification in the future.
 
@@ -215,7 +213,7 @@ The Pennsylvania State University}
 
 
 \frame{
-    \frametitle{Lessons Learned}
+    \frametitle{Many small files}
     \begin{itemize}
         \item IO on \url{lionxv.rcc.psu.edu}:
             \begin{itemize}
@@ -247,7 +245,35 @@ The Pennsylvania State University}
     \end{itemize}
 }
 
-
+\frame{
+    \frametitle{Simulation time, Gather time}
+    Each thread does its own thing, until we need to gather the results together.
+    \begin{center}
+        \begin{tikzpicture}
+            \begin{loglogaxis}
+                [
+                    xmax=40000,
+                    ymax=800,
+                    xlabel=problem size,
+                    ylabel=seconds,
+                    legend style={draw=none},
+                    legend pos=north west
+                ]
+                \addplot+[blue] table [header=false,x index=0,y index=1] {total_timesshort.dat};
+                \addlegendentry{simulation time};
+                \addplot+[red] table [header=false,x index=0,y index=1] {gather_timesshort.dat};
+                \addlegendentry{gather time};
+                \only<2->{
+                    \addplot+[blue] table [header=false,x index=0,y index=1] {total_times.dat};
+                    %\addlegendentry{simulation time};
+                    \addplot+[red] table [header=false,x index=0,y index=1] {gather_times.dat};
+                    %\addlegendentry{gather time};
+                }
+            \end{loglogaxis}
+        \end{tikzpicture}
+    \end{center}
+    $\to$ Astronomical scatter when the network is involved.
+}
 
 
 \appendix
