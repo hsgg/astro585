@@ -221,7 +221,7 @@ The Pennsylvania State University}
             \begin{itemize}
                 \item network (\$HOME, Infiniband)
                 \item disk (\path{/tmp})
-                \item tmpfs (\path{/dev/shm/})
+                \item tmpfs (\path{/dev/shm/}, no execute permissions)
             \end{itemize}
 
             \begin{center}
@@ -230,8 +230,8 @@ The Pennsylvania State University}
                     [
                         height=4cm,
                         width=6cm,
-                        symbolic x coords={home,tmp,devshm},
-                        %ymin=0,
+                        symbolic x coords={network,disk,tmpfs},
+                        ymin=0,
                         ylabel=seconds,
                     ]
                     \addplot+[error bars/.cd, y dir=both, y explicit]
