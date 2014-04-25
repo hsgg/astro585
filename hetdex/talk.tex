@@ -79,8 +79,10 @@ The Pennsylvania State University}
         \draw[color=red,->,very thick] (-2, -1) -> (-1.2, -0.2);
     \end{tikzpicture}
 
-    \begin{textblock*}{\textwidth}(0cm, -1cm)
-        McDonald Observatory, \SI{10}{\meter} primary, \num{36000} spectra
+    \begin{textblock*}{\textwidth}(0cm, -1.3cm)
+        McDonald Observatory, \SI{10}{\meter} primary
+
+        Every pixel is a spectrograph: \num{36000} spectra
     \end{textblock*}
 }
 
@@ -94,7 +96,7 @@ The Pennsylvania State University}
         }
     \end{center}
     Sloan Digital Sky Survey out to redshift $z \sim 0.5$.
-    
+
     Eisenstein \emph{et al.}, 2005.
 }
 
@@ -213,6 +215,36 @@ The Pennsylvania State University}
 
 
 \frame{
+    \frametitle{Simulation time, Gather time}
+    Each thread does its own thing, until we need to gather the results together.
+    \begin{center}
+        \begin{tikzpicture}
+            \begin{loglogaxis}
+                [
+                    xmax=40000,
+                    ymax=800,
+                    xlabel=problem size,
+                    ylabel=seconds,
+                    legend style={draw=none},
+                    legend pos=north west
+                ]
+                \addplot+[blue] table [header=false,x index=0,y index=1] {total_timesshort.dat};
+                \addlegendentry{simulation time};
+                \addplot+[red] table [header=false,x index=0,y index=1] {gather_timesshort.dat};
+                \addlegendentry{gather time};
+                \only<2->{
+                    \addplot+[blue] table [header=false,x index=0,y index=1] {total_times.dat};
+                    %\addlegendentry{simulation time};
+                    \addplot+[red] table [header=false,x index=0,y index=1] {gather_times.dat};
+                    %\addlegendentry{gather time};
+                }
+            \end{loglogaxis}
+        \end{tikzpicture}
+    \end{center}
+    $\to$ Astronomical scatter when the network is involved.
+}
+
+\frame{
     \frametitle{Many small files}
     \begin{itemize}
         \item IO on \url{lionxv.rcc.psu.edu}:
@@ -243,36 +275,6 @@ The Pennsylvania State University}
 
         \item print() statements are slow, especially over the network
     \end{itemize}
-}
-
-\frame{
-    \frametitle{Simulation time, Gather time}
-    Each thread does its own thing, until we need to gather the results together.
-    \begin{center}
-        \begin{tikzpicture}
-            \begin{loglogaxis}
-                [
-                    xmax=40000,
-                    ymax=800,
-                    xlabel=problem size,
-                    ylabel=seconds,
-                    legend style={draw=none},
-                    legend pos=north west
-                ]
-                \addplot+[blue] table [header=false,x index=0,y index=1] {total_timesshort.dat};
-                \addlegendentry{simulation time};
-                \addplot+[red] table [header=false,x index=0,y index=1] {gather_timesshort.dat};
-                \addlegendentry{gather time};
-                \only<2->{
-                    \addplot+[blue] table [header=false,x index=0,y index=1] {total_times.dat};
-                    %\addlegendentry{simulation time};
-                    \addplot+[red] table [header=false,x index=0,y index=1] {gather_times.dat};
-                    %\addlegendentry{gather time};
-                }
-            \end{loglogaxis}
-        \end{tikzpicture}
-    \end{center}
-    $\to$ Astronomical scatter when the network is involved.
 }
 
 
