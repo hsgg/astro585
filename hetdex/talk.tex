@@ -11,6 +11,7 @@
 \usepackage{textpos}
 \usepackage{siunitx}
 \usepackage{graphicx}
+\usepackage{listings}
 \usepackage[normalem]{ulem}
 
 
@@ -60,6 +61,16 @@ The Pennsylvania State University}
 \newcommand{\angstrom}{\ensuremath{\text{\AA}}}
 
 
+% https://mikedewar.wordpress.com/2009/02/25/latex-beamer-python-beauty/
+\usepackage{bera}
+\usetheme{default}
+\beamertemplatenavigationsymbolsempty
+\definecolor{keywords}{RGB}{255,0,90}
+\definecolor{comments}{RGB}{60,179,113}
+\lstset{language=Python,
+keywordstyle=\color{keywords},
+commentstyle=\color{comments}\emph}
+
 \begin{document}
 
 \frame{\titlepage}
@@ -102,7 +113,7 @@ The Pennsylvania State University}
 
 
 \frame{
-    \frametitle{Baryonic Acoustic Oscillations}
+    \frametitle{Baryonic Acoustic Oscillations (BAO)}
     \begin{columns}
         \begin{column}{6cm}
             %https://www.cfa.harvard.edu/~deisenst/acousticpeak/
@@ -125,8 +136,8 @@ The Pennsylvania State University}
 }
 
 \frame{
-    \frametitle{HETDEX: How does the view of the yardstick change as a function
-    of redshift?}
+    \frametitle{HETDEX: How does the Hubble \underline{constant} change with
+    time?}
 
     \begin{textblock*}{5cm}(7cm, 0cm)
         LAEs: ca. \num{800000} \\
@@ -143,7 +154,7 @@ The Pennsylvania State University}
         %
         \pause
         % LAEs
-        \draw[<-,color=blue,very thick] (2, 5) -- (4, 5) node[anchor=west] (laes) {Lyman-$\alpha$ emitters};
+        \draw[<-,color=red,very thick] (2, 5) -- (4, 5) node[anchor=west] (laes) {Lyman-$\alpha$ emitters};
         \node at (laes) [anchor=105] {
             \begin{minipage}{3cm}
                 \medskip
@@ -154,10 +165,10 @@ The Pennsylvania State University}
         %
         \pause
         % OII emitters
-        \draw[<-,color=red,very thick] (0.5, 2) -- (3, 2) node[anchor=west]{Contaminants: OII emitters};
+        \draw[<-,color=blue,very thick] (0.5, 2) -- (3, 2) node[anchor=west]{Contaminants: OII emitters};
     \end{tikzpicture}
 
-    How does the Hubble \underline{constant} change with time?
+    How does the view of the yardstick change as a function of redshift?
 }
 
 
@@ -208,10 +219,56 @@ The Pennsylvania State University}
         \item should scale mostly linearly
     \end{itemize}
 
-    \begin{itemize}
-        \item \path{mpi4py} for embarrassingly easy parallelization
-    \end{itemize}
+    {\tt mpi4py} for embarrassingly easy parallelization
 }
+
+
+\begin{frame}[fragile]{}
+    \begin{lstlisting}
+from mpi4py import MPI
+
+def main():
+    comm = MPI.COMM_WORLD
+    size = comm.Get_size()
+    rank = comm.Get_rank()
+
+    if rank == 0:
+        config, correction, OII = yoda.common_init()
+
+    # broadcast these to everybody:
+    config = comm.bcast(config, root=0)
+    correction = comm.bcast(correction, root=0)
+    OII = comm.bcast(OII, root=0)
+
+    # do stuff
+    out = numpy.empty(100000)
+    ...
+    \end{lstlisting}
+\end{frame}
+\begin{frame}[fragile]{}
+    \begin{lstlisting}
+    # did stuff
+    out = numpy.empty(100000)
+    ...
+
+    # gather the results in a list of arrays
+    arraylist = comm.gather(out, root=0)
+
+    # only the rank=0 thread gets the list
+    if arraylist is not None:
+        out = numpy.concatenate(arraylist)
+    else:
+        out = None
+    \end{lstlisting}
+
+    \bigskip
+    \vfill
+
+    Run program with
+    \begin{lstlisting}[language=sh]
+    mpirun yoda.py
+    \end{lstlisting}
+\end{frame}
 
 
 \frame{
