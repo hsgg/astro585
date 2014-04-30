@@ -345,7 +345,7 @@ def main():
                         [
                             height=0.7\textheight,
                             %width=6cm,
-                            symbolic x coords={plain python,numpy,ufuncify(),opencl CPU, opencl GPU},
+                            symbolic x coords={plain python,numpy,sympy ufuncify(),pyopencl CPU,pyopencl GPU},
                             ymin=0,
                             ylabel=seconds,
                             xticklabel style={rotate=75}
@@ -353,9 +353,9 @@ def main():
                         \addplot+ coordinates {
                             (plain python, 159.495854855)
                             (numpy, 0.875063896179)
-                            (ufuncify(), 0.698888063431)
-                            (opencl CPU, 0.151912927628)
-                            (opencl GPU, 0.16441488266)
+                            (sympy ufuncify(), 0.698888063431)
+                            (pyopencl CPU, 0.151912927628)
+                            (pyopencl GPU, 0.16441488266)
                         };
                     \end{semilogyaxis}
                 \end{tikzpicture}
