@@ -335,6 +335,50 @@ def main():
 }
 
 
+\frame{
+    \frametitle{Plain Python, numpy, ufuncify(), and opencl}
+    \begin{columns}
+        \begin{column}{8cm}
+            \begin{center}
+                \begin{tikzpicture}
+                    \begin{semilogyaxis}
+                        [
+                            height=0.7\textheight,
+                            %width=6cm,
+                            symbolic x coords={plain python,numpy,ufuncify(),opencl CPU, opencl GPU},
+                            ymin=0,
+                            ylabel=seconds,
+                            xticklabel style={rotate=75}
+                        ]
+                        \addplot+ coordinates {
+                            (plain python, 159.495854855)
+                            (numpy, 0.875063896179)
+                            (ufuncify(), 0.698888063431)
+                            (opencl CPU, 0.151912927628)
+                            (opencl GPU, 0.16441488266)
+                        };
+                    \end{semilogyaxis}
+                \end{tikzpicture}
+            \end{center}
+        \end{column}
+        \begin{column}{3cm}
+            \url{drake.astro.psu.edu}:
+            \bigskip
+
+            Intel Core i5-3330S
+
+            2.7~GHz
+
+            Quad-core
+
+            \bigskip
+
+            NVidia GeForce GT 640M
+        \end{column}
+    \end{columns}
+}
+
+
 \appendix
 
 
